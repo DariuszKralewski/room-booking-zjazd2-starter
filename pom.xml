@@ -18,7 +18,7 @@
     <description>System rezerwacji sal - projekt startowy (Zjazd 2: Spring Data JPA, walidacja i obsługa wyjątków)</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <springdoc.version>3.2.0</springdoc.version>
     </properties>
 

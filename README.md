@@ -4,7 +4,7 @@ Repozytorium startowe do przedmiotu **Programowanie aplikacji webowych w Javie**
 
 ## Wymagania wstępne
 
-- **Java JDK 21** (lub nowsza wersja LTS)
+- **Java JDK 25** (lub nowsza wersja LTS)
 - **Apache Maven 3.9+** (lub wbudowany Maven w IntelliJ IDEA)
 - Środowisko programistyczne: **IntelliJ IDEA**, **VS Code** (z *Extension Pack for Java*) lub **Eclipse**
 
