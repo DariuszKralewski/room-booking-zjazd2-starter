@@ -1,0 +1,83 @@
+### 0. Healthcheck - sprawdzenie działania serwera
+GET http://localhost:8080/api/health
+Accept: application/json
+
+### 1. Pobranie wszystkich sal z bazy H2
+GET http://localhost:8080/api/rooms
+Accept: application/json
+
+### 2. Pobranie wszystkich rezerwacji
+GET http://localhost:8080/api/reservations
+Accept: application/json
+
+### 3. Zadanie 1: Pobranie rezerwacji dla sali nr 1 (oczekiwane 200 OK)
+GET http://localhost:8080/api/rooms/1/reservations
+Accept: application/json
+
+### 4. Zadanie 1: Pobranie rezerwacji dla nieistniejącej sali (oczekiwane 404 Not Found - ProblemDetail)
+GET http://localhost:8080/api/rooms/999/reservations
+Accept: application/json
+
+### 5. Zadanie 2: Utworzenie poprawnej rezerwacji w wolnym terminie (oczekiwane 201 Created)
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "roomId": 1,
+  "reservedBy": "Piotr Wiśniewski",
+  "contactEmail": "piotr.wisniewski@uczelnia.pl",
+  "purpose": "Konsultacje projektowe",
+  "startTime": "2027-05-10T10:00:00",
+  "endTime": "2027-05-10T12:00:00"
+}
+
+### 6. Zadanie 2 i 6: Próba utworzenia nakładającej się rezerwacji (oczekiwane 409 Conflict - ProblemDetail)
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "roomId": 1,
+  "reservedBy": "Marek Zieliński",
+  "contactEmail": "marek.zielinski@uczelnia.pl",
+  "purpose": "Spotkanie koła naukowego",
+  "startTime": "2027-05-10T11:00:00",
+  "endTime": "2027-05-10T13:00:00"
+}
+
+### 7. Zadanie 2 i 6: Próba rezerwacji niedostępnej sali nr 3 (oczekiwane 409 Conflict)
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "roomId": 3,
+  "reservedBy": "Katarzyna Lewandowska",
+  "contactEmail": "k.lewandowska@uczelnia.pl",
+  "purpose": "Ćwiczenia laboratoryjne",
+  "startTime": "2027-05-11T10:00:00",
+  "endTime": "2027-05-11T12:00:00"
+}
+
+### 8. Zadanie 5 i 6: Błędne dane wejściowe Bean Validation (oczekiwane 400 Bad Request z mapą 'errors')
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "roomId": null,
+  "reservedBy": "",
+  "contactEmail": "niepoprawny-email",
+  "purpose": "A",
+  "startTime": "2020-01-01T10:00:00",
+  "endTime": "2020-01-01T09:00:00"
+}
+
+### 9. Zadanie 3: Pobranie szczegółów rezerwacji nr 1 (oczekiwane 200 OK)
+GET http://localhost:8080/api/reservations/1
+Accept: application/json
+
+### 10. Zadanie 3: Anulowanie rezerwacji nr 1 (oczekiwane 200 OK, przy powtórzeniu 409 Conflict)
+PATCH http://localhost:8080/api/reservations/1/cancel
+Accept: application/json
+
+### 11. Zadanie 4: Filtrowanie rezerwacji po statusie CANCELLED
+GET http://localhost:8080/api/reservations?status=CANCELLED
+Accept: application/json
